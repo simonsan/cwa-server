@@ -22,6 +22,12 @@ jobs:
           paths:
             - ~/.m2
           key: cwa-server-{{ checksum "~/pom-checksum" }}
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Start Object Store Container
+          command: |
+            docker-compose up -d objectstore
       - run:
           name: Test and Package
           command: mvn failsafe:integration-test --batch-mode package
